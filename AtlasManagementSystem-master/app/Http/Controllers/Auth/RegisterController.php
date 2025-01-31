@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests\RegisterPostRequest;
 
-use App\Models\Users\Subjects;
+use App\Models\Users\Subject;
 
 class RegisterController extends Controller
 {
@@ -54,7 +54,7 @@ class RegisterController extends Controller
      */
     public function registerView()
     {
-        $subjects = Subjects::all();
+        $subjects = Subject::all();
         return view('auth.register.register', compact('subjects'));
     }
 
@@ -76,12 +76,14 @@ class RegisterController extends Controller
                 'password' => bcrypt($request->password),
             ]);
 
+            dd($request->subject);
             $user->subjects()->attach($request->subject);
             DB::commit();
 
             return view('auth.login.login');
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e->getMessage());
             return redirect()->route('loginView');
         }
     }
