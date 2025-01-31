@@ -75,9 +75,11 @@ class RegisterController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password),
             ]);
-
-            dd($request->subject);
+            dd($value);
             $user->subjects()->attach($request->subject);
+            if (!$user) {
+    throw new \Exception("ユーザーの作成に失敗しました。");
+}
             DB::commit();
 
             return view('auth.login.login');
