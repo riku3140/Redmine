@@ -64,12 +64,7 @@ class RegisterPostRequest extends FormRequest
             ],
 
             // 生年月日関連
-            'old_year' => [
-                'required',
-                'date',
-                'before_or_equal:' . $currentDate,
-                'after_or_equal:2000-01-01',
-            ],
+            'old_year' => 'required|integer|min:1900|max:' . date('Y'),
             'old_month' => 'required|integer|between:1,12', // 月の範囲
             'old_day' => 'required|integer|between:1,31', // 日の範囲
 
